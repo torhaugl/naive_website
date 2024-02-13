@@ -16,7 +16,7 @@ except:
     ms_identity_web = TempClass()
 
 
-@method_decorator(ms_identity_web.login_required, name=“dispatch”)
+@method_decorator(ms_identity_web.login_required, name="dispatch")
 class IndexView(generic.ListView):
     template_name = "index.html"
     context_object_name = "latest_question_list"
@@ -25,13 +25,13 @@ class IndexView(generic.ListView):
         return Question.objects.all()
 
 
-@method_decorator(ms_identity_web.login_required, name=“dispatch”)
+@method_decorator(ms_identity_web.login_required, name="dispatch")
 class DetailView(generic.DetailView):
     model = Question
     template_name = "detail.html"
 
 
-@method_decorator(ms_identity_web.login_required, name=“dispatch”)
+@method_decorator(ms_identity_web.login_required, name="dispatch")
 class ResultView(generic.DetailView):
     model = Question
     template_name = "results.html"
