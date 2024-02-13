@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "naive_website"
+authors = [
+    {name = "Tor S. Haugland", email = "tor.haugland@sintef.no"},
+]
+maintainers = [
+    {name = "Tor S. Haugland", email = "tor.haugland@sintef.no"},
+]
+description = "Naive website to test PhysMet portal."
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+]
+requires-python = ">=3.10"
+dynamic = ["version"]
+
+dependencies = [
+    "Django"
+]
