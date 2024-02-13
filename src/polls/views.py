@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.conf import settings
+from django.utils.decorators import method_decorator
 
 from .models import Question, Choice
 
@@ -15,7 +16,7 @@ except:
     ms_identity_web = TempClass()
 
 
-@ms_identity_web.login_required
+@method_decorator(ms_identity_web.login_required, name=“dispatch”)
 class IndexView(generic.ListView):
     template_name = "index.html"
     context_object_name = "latest_question_list"
@@ -24,13 +25,13 @@ class IndexView(generic.ListView):
         return Question.objects.all()
 
 
-@ms_identity_web.login_required
+@method_decorator(ms_identity_web.login_required, name=“dispatch”)
 class DetailView(generic.DetailView):
     model = Question
     template_name = "detail.html"
 
 
-@ms_identity_web.login_required
+@method_decorator(ms_identity_web.login_required, name=“dispatch”)
 class ResultView(generic.DetailView):
     model = Question
     template_name = "results.html"
