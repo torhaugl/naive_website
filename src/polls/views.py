@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.conf import settings
 from django.utils.decorators import method_decorator
-from physmet_portal.dashboard.views import PhysMetAppView
+from physmet.PhysMetAppView import PhysMetAppView
 
 from .models import Question, Choice
 
@@ -68,6 +68,6 @@ class ResultsView(PhysMetAppView):
     def get(self, request, question_id):
         print(request)
         question = get_object_or_404(Question, pk=question_id)
-        self.context["question"] = question
+        self["question"] = question
         #return render(request, "polls/results.html", {"question": question})
         return self.render(request)
