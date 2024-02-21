@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.conf import settings
 from django.utils.decorators import method_decorator
+from physmet_portal.dashboard.views import PhysMetAppView
 
 from .models import Question, Choice
 
@@ -31,11 +32,10 @@ class DetailView(generic.DetailView):
     template_name = "detail.html"
 
 
-@method_decorator(ms_identity_web.login_required, name="dispatch")
-class ResultView(generic.DetailView):
-    model = Question
-    template_name = "results.html"
-
+#@method_decorator(ms_identity_web.login_required, name="dispatch")
+#class ResultView(generic.DetailView):
+#    model = Question
+#    template_name = "results.html"
 
 @ms_identity_web.login_required
 def vote(request, question_id):
@@ -54,3 +54,20 @@ def vote(request, question_id):
     selected_choice.save()
 
     return HttpResponseRedirect(reverse("polls:results", args=(question_id,)))
+
+class ResultsView(PhysMetAppView):
+    name = 'results'
+    path = 'results'
+    template = 'results'
+    login_required = True
+    roles_required = {
+        'get': 'portal-read | portal-admin',
+        'post': 'portal-admin'
+    }
+
+    def get(self, request, question_id):
+        print(request)
+        question = get_object_or_404(Question, pk=question_id)
+        self.context["question"] = question
+        #return render(request, "polls/results.html", {"question": question})
+        return self.render(request)
