@@ -65,9 +65,7 @@ class ResultsView(PhysMetAppView):
         'post': 'portal-admin'
     }
 
-    def get(self, request, question_id):
-        print(request)
-        question = get_object_or_404(Question, pk=question_id)
+    def get(self, request, pk):
+        question = get_object_or_404(Question, pk=pk)
         self["question"] = question
-        #return render(request, "polls/results.html", {"question": question})
         return self.render(request)
