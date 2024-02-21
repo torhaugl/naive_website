@@ -1,1 +1,1 @@
-include src/polls/templates/*.html
+include src/polls/templates/polls/*.html
