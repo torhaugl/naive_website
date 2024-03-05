@@ -2,11 +2,14 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
-from physmet.PhysMetAppView import PhysMetAppView
+from physmet.django.views import AppView
+from physmet.django.decorators import azure_login_required
+from django.utils.decorators import method_decorator
 
 from .models import Question, Choice
 
 
+@method_decorator(azure_login_required, name='dispatch')
 class IndexView(generic.ListView):
     template_name = "polls/index.html"
     context_object_name = "latest_question_list"
@@ -15,14 +18,17 @@ class IndexView(generic.ListView):
         return Question.objects.all()
 
 
+@method_decorator(azure_login_required, name='dispatch')
 class DetailView(generic.DetailView):
     model = Question
     template_name = "polls/detail.html"
 
 
+
+@azure_login_required
 def vote(request, question_id):
+    # vote on question
     question = get_object_or_404(Question, pk=question_id)
-    print(request.POST)
     try:
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, Choice.DoesNotExist):
@@ -37,7 +43,9 @@ def vote(request, question_id):
 
     return HttpResponseRedirect(reverse("polls:results", args=(question_id,)))
 
-class ResultsView(PhysMetAppView):
+
+
+class ResultsView(AppView):
     name = 'results'
     path = 'results'
     template = 'polls/results'
